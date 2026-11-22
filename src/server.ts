@@ -1,12 +1,12 @@
 import express from "express";
 import type { Express } from "express";
 import { serverConfig } from "./config";
-import pingRouter from "./routes/ping.router";
+import v1Router from "./routes/v1/index.routes";
 
 const app: Express = express();
 
 const PORT = serverConfig.PORT;
-app.use(pingRouter);
+app.use("/api/v1", v1Router);
 
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
