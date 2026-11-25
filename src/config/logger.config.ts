@@ -1,5 +1,6 @@
 import winston from "winston";
 import { asyncLocalStorage } from "../utils/helpers/request.helper.js";
+import DailyRotateFile from "winston-daily-rotate-file";
 
 export const logger = winston.createLogger({
   level: "info",
@@ -22,5 +23,16 @@ export const logger = winston.createLogger({
     }),
   ),
 
-  transports: [new winston.transports.Console()],
+  transports: [
+    new winston.transports.Console(),
+    new DailyRotateFile({
+      dirname: "logs",
+      filename: "application-%DATE%.log",
+      datePattern: "YYYY-MM-DD-HH",
+      zippedArchive: true,
+      maxSize: "20m",
+      maxFiles: "14d",
+      auditFile: "logs/.audit.json",
+    }),
+  ],
 });
